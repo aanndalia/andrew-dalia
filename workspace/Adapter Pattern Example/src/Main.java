@@ -1,0 +1,17 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		/// Uses composition
+		ConsoleLogWriter consoleLogWriter = new ConsoleLogWriter();
+		Logger logger = new Logger(consoleLogWriter);		
+		logger.write("Hello there");
+
+		/// Uses inheritance
+		ConsoleLogWriter2 consoleLogWriter2 = new ConsoleLogWriter2();
+		Logger logger2 = new Logger(consoleLogWriter2);		
+		logger2.write("Hello there 2");
+	}
+
+}

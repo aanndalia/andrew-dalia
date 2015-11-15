@@ -1,0 +1,15 @@
+/* Adapter class that uses composition */
+public class ConsoleLogWriter implements LogWriter{
+
+	private ConsoleWriter consoleWriter;
+	
+	public ConsoleLogWriter() {
+		this.consoleWriter = new ConsoleWriter();
+	}
+	
+	@Override
+	public void out(String text) {
+		consoleWriter.writeConsole(text);
+	}
+
+}

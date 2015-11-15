@@ -1,0 +1,23 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		List list = new List();
+		
+		list.AddToEnd(1);
+		list.AddToEnd(2);
+		list.AddToEnd(3);
+		
+		list.Print();
+		
+		// now iterate through the list, printing each item
+	    list.firstElement();
+	    while (list.hasMoreElements()) 
+	    {
+	        String tmp = (String)list.nextElement();
+	        System.out.println(tmp);
+	    }
+	}
+
+}

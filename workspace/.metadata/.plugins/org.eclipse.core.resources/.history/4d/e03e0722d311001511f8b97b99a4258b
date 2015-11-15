@@ -1,0 +1,12 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		ConsoleLogWriter consoleLogWriter = new ConsoleLogWriter();
+		Logger logger = new Logger(consoleLogWriter);
+		
+		logger.write("Hello there");
+
+	}
+
+}

@@ -1,0 +1,29 @@
+package volatil;
+
+class Processor extends Thread
+{
+	public void run()
+	{
+		while(true)
+		{
+			System.out.println("Hello");
+			
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+public class App {
+
+	public static void main(String[] args) {
+		Processor proc1 = new Processor();
+		proc1.start();
+
+	}
+
+}

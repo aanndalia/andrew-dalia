@@ -207,3 +207,16 @@ bool BST<T>::isBalanced(Node<T>* root){
 		return true;
 	}
 }
+
+template<class T>
+void BST<T>::mirrorTree(Node<T> *root){
+	if(root == NULL)
+		return;
+
+	Node<T>* temp = root->left;
+	root->left = root->right;
+	root->right = temp;
+
+	mirrorTree(root->left);
+	mirrorTree(root->right);
+}

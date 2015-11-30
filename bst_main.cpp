@@ -34,4 +34,8 @@ int main(){
 	cout << "Root height: " << bst->nodeHeight(bst->getRoot()->right) << endl;
 
 	cout << "isBalanced: " << bst->isBalanced(bst->getRoot()) << endl;
+
+	bst->mirrorTree(bst->getRoot());
+	cout << "Tree mirrored" << endl;
+	bst->printBreadthFirst(bst->getRoot());
 }

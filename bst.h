@@ -32,4 +32,5 @@ public:
 	void prettyPrint(Node<T>* p, int indent=0);
 	int nodeHeight(Node<T>* root);
 	bool isBalanced(Node<T>* root);
+	void mirrorTree(Node<T> *root);
 };

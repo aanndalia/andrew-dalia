@@ -35,7 +35,21 @@ int main(){
 
 	cout << "isBalanced: " << bst->isBalanced(bst->getRoot()) << endl;
 
+	bst->insertVal(7);
+	bst->printInorderTraversal(bst->getRoot());
+	cout << endl;
+	cout << "Finding 7: " << bst->findVal(7) << endl;
+	cout << "Finding 5: " << bst->findVal(10) << endl;
+
+	bst->removeVal(4);
+	cout << "inorder traversal after removing key 4 " << endl;
+	bst->printInorderTraversal(bst->getRoot());
+	cout << endl;
+	
+	bst->removeVal(10);
+
 	bst->mirrorTree(bst->getRoot());
 	cout << "Tree mirrored" << endl;
 	bst->printBreadthFirst(bst->getRoot());
+
 }

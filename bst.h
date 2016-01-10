@@ -17,6 +17,7 @@ class BST
 {
 private:
 	Node<T> *root;
+	Node<T>** traverseTo(Node<T>** startNode, T val);
 public:
 	BST();
 	BST(T rootVal);
@@ -33,4 +34,7 @@ public:
 	int nodeHeight(Node<T>* root);
 	bool isBalanced(Node<T>* root);
 	void mirrorTree(Node<T> *root);
+	bool insertVal(T val);
+	bool findVal(T val);
+	bool removeVal(T val);
 };

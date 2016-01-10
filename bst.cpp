@@ -189,6 +189,78 @@ int BST<T>::nodeHeight(Node<T>* root){
 }
 
 template<class T>
+Node<T>** BST<T>::traverseTo(Node<T>** startNode, T val){
+	if(*startNode == NULL){
+		return startNode;
+	}
+
+	//cout << "traversing node " << (*startNode)->data << ", looking for val " << val << endl;
+	if((*startNode)->data == val){
+		return startNode;
+	}
+
+	if(val < (*startNode)->data){
+		return traverseTo(&((*startNode)->left), val);
+	}
+	else{
+		return traverseTo(&((*startNode)->right), val);
+	}
+}
+
+template<class T>
+bool BST<T>::insertVal(T val){
+	/*if(root == NULL){
+		root = new Node<T>(val);
+		return true;
+	}
+	*/
+	Node<T>** insertPtr = traverseTo(&root, val);
+	if(*insertPtr == NULL){
+		*insertPtr = new Node<T>(val);
+		return true;
+	}
+	else {
+		cout << "Key " << val << " already found in BST" << endl;
+		return false;
+	}
+}
+
+template<class T>
+bool BST<T>::findVal(T val){
+	/*if(root == NULL){
+		return false;
+	}
+	*/
+	Node<T>** findPtr = traverseTo(&root, val);
+	if(*findPtr == NULL){
+		cout << "Key " << val << " not found in BST" << endl;
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+template<class T>
+bool BST<T>::removeVal(T val){
+	/*if(root == NULL){
+		return false;
+	}
+	*/
+	Node<T>** removePtr = traverseTo(&root, val);
+	if(*removePtr == NULL){
+		cout << "Key " << val << " not found in BST" << endl;
+		return false;
+	}
+	else {
+		cout << "Deleting key " << (*removePtr)->data << endl;
+		delete *removePtr;
+		*removePtr = NULL;
+		return true;
+	}
+}
+
+template<class T>
 bool BST<T>::isBalanced(Node<T>* root){
 	if(root == NULL){
 		return true;

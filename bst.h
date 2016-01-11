@@ -37,4 +37,6 @@ public:
 	bool insertVal(T val);
 	bool findVal(T val);
 	bool removeVal(T val);
+	T leastCommonAncestor(T val1, T val2);
+	bool findPath(Node<T>* startNode, T val, vector<T>& path);
 };

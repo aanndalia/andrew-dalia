@@ -45,8 +45,13 @@ int main(){
 	cout << "inorder traversal after removing key 4 " << endl;
 	bst->printInorderTraversal(bst->getRoot());
 	cout << endl;
-	
+
 	bst->removeVal(10);
+
+	int lca1 = 12;
+	int lca2 = 8;
+	int ret = bst->leastCommonAncestor(lca1, lca2);
+	cout << "LCA of " << lca1 << " and " << lca2 << " is " << ret << endl;
 
 	bst->mirrorTree(bst->getRoot());
 	cout << "Tree mirrored" << endl;

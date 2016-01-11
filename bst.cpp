@@ -292,3 +292,63 @@ void BST<T>::mirrorTree(Node<T> *root){
 	mirrorTree(root->left);
 	mirrorTree(root->right);
 }
+
+template<class T>
+T BST<T>::leastCommonAncestor(T val1, T val2){
+	if(root == NULL){
+		return 0;
+	}
+
+	vector<T> path1;
+	vector<T> path2;
+	bool ret1 = findPath(root, val1, path1);
+	bool ret2 = findPath(root, val2, path2);
+
+	/*
+	cout << "ret1 " << ret1 << ", ret2 " << ret2 << endl;
+	cout << "path1: ";
+	for(int i=0; i < path1.size(); i++){
+		cout << path1[i] << " ";
+	}
+	cout << endl;
+
+	cout << "path2: ";
+	for(int i=0; i < path2.size(); i++){
+		cout << path2[i] << " ";
+	}
+	cout << endl;*/
+
+	if(ret1 && ret2){
+		int i = 0;
+		while(i < path1.size() && i < path2.size()){
+			if(path1[i] != path2[i]){
+				return path1[i-1];
+			}
+			i++;
+		}
+		return path1[i-1];
+	}
+
+	return 0;
+}
+
+template<class T>
+bool BST<T>::findPath(Node<T>* startNode, T val, vector<T>& path){
+	if(startNode == NULL){
+		//path.clear();
+		return false;
+	}
+
+	path.push_back(startNode->data);
+
+	if(startNode->data == val){
+		return true;
+	}
+
+	if(findPath(startNode->left, val, path) || findPath(startNode->right, val, path)){
+		return true;
+	}
+
+	path.pop_back();
+	return false;
+}

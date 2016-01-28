@@ -234,5 +234,5 @@ int main(){
 	Board b = Board(dim, totalBombs);
 	Game g = Game(b);
 	g.printBoard(true); // for debugging
-	g.play();
+	g.play(); 
 }

@@ -13,14 +13,10 @@ class Board{
 private:
 	int** board;
 	bool** hiddenBoard;
-	//vector<vector<int> > board;
-	//vector<vector<bool> > hiddenBoard;
 	const int dim;
 	const int totalBombs;
 public:
 	Board(const int dimension, const int totalBombs) : dim(dimension), totalBombs(totalBombs){
-		//board = new int[dim][dim];
-		//hiddenBoard = new bool[dim][dim];
 		initialize();
 	} 
 
@@ -106,8 +102,6 @@ public:
 private:
 	void initBoard(){
 		board = new int*[dim];
-		//vector<int> v = 
-		//board.push_back(vector<int>);
 		for(int i = 0; i < dim; i++){
 			board[i] = new int[dim];
 
@@ -134,7 +128,6 @@ private:
 		while(bombsPlaced < totalBombs){
 			int randRow = rand() % dim;
 			int randCol = rand() % dim;
-			//cout << "(row, col): (" << randRow << ", " << randCol << ")" << endl; 
 			if(board[randRow][randCol] != BOMB){
 				board[randRow][randCol] = BOMB;
 				bombsPlaced++;
@@ -147,7 +140,6 @@ private:
 			for(int c=0; c < dim; c++){
 				if(board[r][c] != BOMB){
 					board[r][c] = getNeighboringBombsCount(r, c);
-					//cout << r << " " << c << " " << board[r][c] << endl;
 				}
 			}
 		}
@@ -177,8 +169,9 @@ private:
 class Game{
 private:
 	Board b;
+	int numMoves;
 public:
-	Game(Board& board) : b(board) {
+	Game(Board& board) : b(board), numMoves(0) {
 		
 	}
 
@@ -188,12 +181,12 @@ public:
 
 	void play(){
 		printBoard();
-		while(true){
-			if(playTurn() == LOSE || b.isWin()){
-				printBoard(true);
-				return;
-			}
+		while(playTurn() != LOSE && b.isWin() == false){
+			numMoves++;
 		}
+		cout << "Number of moves: " << numMoves + 1 << endl;
+		printBoard(true);
+		return;
 	}
 
 private:
@@ -201,8 +194,7 @@ private:
 		int row, col;
 		cout << "Enter a row and column (separated by a space): ";
 		cin >> row >> col;
-		//row -= 1;
-		//col -= 1;
+
 		if(b.isInbounds(row, col) == false){
 			cout << "Invalid move, outside dimensions - try again" << endl;
 			printBoard();
@@ -217,12 +209,10 @@ private:
 		else{
 			if(b.getBoardCell(row, col) == BOMB){
 				cout << "You lose!" << endl;
-				//printBoard(true);
 				return LOSE;
 			}
 			else if(b.getBoardCell(row, col) == EMPTY){
 				b.uncoverConnectedEmpties(row, col);
-				//b.setHiddenCell(row, col, false);
 			}
 			else{
 				b.setHiddenCell(row, col, false);
@@ -243,7 +233,6 @@ int main(){
 
 	Board b = Board(dim, totalBombs);
 	Game g = Game(b);
-	g.printBoard(true);
-	//g.printBoard(false);
+	g.printBoard(true); // for debugging
 	g.play();
 }

@@ -13,6 +13,7 @@ class Board{
 private:
 	int** board;
 	bool** hiddenBoard;
+	bool** flagBoard;
 	const int dim;
 	const int totalBombs;
 public:
@@ -23,6 +24,7 @@ public:
 	~Board(){
 		delete[] board;
 		delete[] hiddenBoard;
+		delete[] flagBoard;
 	}
 
 	void printBoard(bool showHidden = false){
@@ -36,7 +38,12 @@ public:
 			cout << r % 10 << "  ";
 			for(int c=0; c < dim; c++){
 				if(!showHidden && hiddenBoard[r][c]){
-					cout << "X" << " ";
+					if(flagBoard[r][c]){
+						cout << "F" << " ";
+					}
+					else{
+						cout << "X" << " ";
+					}
 				}
 				else{
 					if(board[r][c] == EMPTY){
@@ -65,6 +72,14 @@ public:
 
 	void setHiddenCell(int row, int col, bool newValue){
 		hiddenBoard[row][col] = newValue;
+	}
+
+	bool isFlagCell(int row, int col){
+		return flagBoard[row][col];
+	}
+
+	void setFlagCell(int row, int col, bool newValue){
+		flagBoard[row][col] = newValue;
 	}
 
 	bool isWin(){
@@ -128,6 +143,15 @@ private:
 		}
 	}
 
+	void initFlagBoard(){
+		flagBoard = new bool*[dim];
+		for(int i = 0; i < dim; i++){
+			flagBoard[i] = new bool[dim];
+			for(int j = 0; j < dim; j++){
+				flagBoard[i][j] = false;
+			}
+		}
+	}
 
 	void initBombs(){
 		srand(time(NULL));
@@ -167,6 +191,7 @@ private:
 	void initialize(){
 		initBoard();
 		initHiddenBoard();
+		initFlagBoard();
 		initBombs();
 		initNumbers();
 	}
@@ -177,8 +202,9 @@ class Game{
 private:
 	Board b;
 	int numMoves;
+	int flagsUsed;
 public:
-	Game(Board& board) : b(board), numMoves(0) {
+	Game(Board& board) : b(board), numMoves(0), flagsUsed(0) {
 		
 	}
 
@@ -199,8 +225,19 @@ public:
 private:
 	GameState playTurn(){
 		int row, col;
-		cout << "Enter a row and column (separated by a space): ";
-		cin >> row >> col;
+		char temp;
+		bool isFlag = false;
+		cout << "Enter a row and column (separated by ' ', prepend with 'F ' if placing flag): ";
+		cin >> temp;
+		
+		if(temp == 'F'){
+			cin >> row >> col;
+			isFlag = true;
+		}
+		else{
+			row = atoi(&temp);
+			cin >> col;
+		}
 
 		if(b.isInbounds(row, col) == false){
 			cout << "Invalid move, outside dimensions - try again" << endl;
@@ -214,18 +251,27 @@ private:
 			return INVALID;
 		}
 		else{
-			if(b.getBoardCell(row, col) == BOMB){
-				cout << "You lose!" << endl;
-				return LOSE;
-			}
-			else if(b.getBoardCell(row, col) == EMPTY){
-				b.uncoverConnectedEmpties(row, col);
+			if(isFlag){
+				bool flagPresent = b.isFlagCell(row, col);
+				b.setFlagCell(row, col, !flagPresent);
+				numMoves--;
+				flagsUsed = flagPresent ? flagsUsed - 1 : flagsUsed + 1;
 			}
 			else{
-				b.setHiddenCell(row, col, false);
+				if(b.getBoardCell(row, col) == BOMB){
+					cout << "You lose!" << endl;
+					return LOSE;
+				}
+				else if(b.getBoardCell(row, col) == EMPTY){
+					b.uncoverConnectedEmpties(row, col);
+				}
+				else{
+					b.setHiddenCell(row, col, false);
+				}
 			}
 		}
 		printBoard();
+		cout << "Flags Used: " << flagsUsed << endl;
 		return VALID;
 	}
 

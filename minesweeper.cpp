@@ -26,7 +26,14 @@ public:
 	}
 
 	void printBoard(bool showHidden = false){
+		cout << "   ";
+		for(int c=0; c < dim; c++){
+			cout << c % 10 << " ";
+		}
+		cout << endl;
+		cout << endl;
 		for(int r=0; r < dim; r++){
+			cout << r % 10 << "  ";
 			for(int c=0; c < dim; c++){
 				if(!showHidden && hiddenBoard[r][c]){
 					cout << "X" << " ";

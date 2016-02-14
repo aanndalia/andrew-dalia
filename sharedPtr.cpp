@@ -38,9 +38,10 @@ public:
 			return *this;
 		}
 
+		(*referenceCount)--;
 		ptr = other.ptr;
 		referenceCount = other.referenceCount;
-		//(*referenceCount)++;
+		(*referenceCount)++;
 		cout << "reference count in assignment operator to " << *referenceCount << endl;
 
 		return *this;

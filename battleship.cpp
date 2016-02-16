@@ -272,6 +272,10 @@ public:
 		return name;
 	}
 
+	int getNumMoves() const {
+		return numMoves;
+	}
+
 	bool shipSunkStatus(int shipType){
 		int shipSize = getShipSize(shipType);
 		if(shipType == SUBMARINE){
@@ -348,14 +352,14 @@ public:
 		int enemyCell = enemy->getCell(row, col);
 		if(enemyCell == EMPTY){
 			b->setEnemyBoardCell(row, col, MISS);
-			cout << "You missed!" << endl;
+			cout << "You missed!\n" << endl;
 		}
 		else{
 			b->setEnemyBoardCell(row, col, HIT);
 			enemy->hitHandler(enemyCell);
 			if(enemy->allShipsSunk())
 				gameOver = true;
-			cout << "You hit!" << endl;
+			cout << "You hit!\n" << endl;
 		}
 
 		numMoves++;
@@ -389,26 +393,36 @@ public:
 	void playGame(){
 		while(true){
 			if(player1->playTurn()){
-				cout << player1->getName() << " wins!";
+				cout << player1->getName() << " wins! (in " << player1->getNumMoves() << " moves";
 				return;
 			}
 			if(player2->playTurn()){
-				cout << player2->getName() << " wins!";
+				cout << player2->getName() << " wins! (in " << player2->getNumMoves() << " moves";
 				return;
 			}
 		}
 	}
 };
 
-int main()
-{
-	int dimension = 10;
+void startGame(){
+	int dimension;
 	string p1Name;
 	string p2Name;
+	cout << "Enter board dimension: ";
+	cin >> dimension;
+	while(dimension < 5 || dimension > 20){
+		cout << "Re-enter the board dimension: ";
+		cin >> dimension;
+	}
 	cout << "Enter player 1's name: ";
 	cin >> p1Name;
 	cout << "Enter player 2's name: ";
 	cin >> p2Name;
 	Game g(dimension, p1Name, p2Name);
 	g.playGame();
+}
+
+int main()
+{
+	startGame();
 }

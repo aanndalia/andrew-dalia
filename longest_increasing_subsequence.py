@@ -1,58 +1,40 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jan 08 08:34:39 2015
+'''
+Longest Increasing Subsequence
+Given an integer array nums, return the length of the longest strictly increasing subsequence.
 
-@author: stree_001
-"""
+A subsequence is a sequence that can be derived from the given sequence by deleting some or no elements without changing the relative order of the remaining characters.
 
-def longest_increasing_subsequence_slow(arr):
-    if len(arr) < 2:
-        return 0, 0
-        
-    longest = 0
-    start = 0
-    end = 0
-    for i in range(len(arr)):
-        j = i + 1
-        count = 0
-        print count, longest, end, start, i, j
-        while j < len(arr) and arr[j] < arr[j-1]:
-            count += 1
-            if count > longest:
-                start = i
-                end = j
-                longest = count
-            j += 1
-                
-    return start, end
-    
-def longest_increasing_subsequence(arr):
-    if len(arr) < 2:
-        return 0, 0
-        
-    longest = 0
-    start = 0
-    end = 0
-    best_start = 0
-    count = 0
-    for i in range(1, len(arr)):
-        #print count, longest, end, start, best_start
-        if arr[i] > arr[i-1]:
-            count += 1
-            #print count, longest, end, start, best_start
-            if count > longest:
-                longest = count
-                end = i
-                best_start = start
-        else:
-            start = i
-            count = 0
-            
-    return best_start, end
-    
-def main():
-    arr = [10,3,7,9,0,15]
-    print longest_increasing_subsequence_slow(arr)
-    print longest_increasing_subsequence(arr)
-    
-main()
+For example, "cat" is a subsequence of "crabt".
+Example 1:
+
+Input: nums = [9,1,4,2,3,3,7]
+
+Output: 4
+Explanation: The longest increasing subsequence is [1,2,3,7], which has a length of 4.
+
+Example 2:
+
+Input: nums = [0,3,1,3,2,3]
+
+Output: 4
+Constraints:
+
+1 <= nums.length <= 1000
+-1000 <= nums[i] <= 1000
+'''
+
+
+def lengthOfLIS(nums: List[int]) -> int:
+    n = len(nums)
+    if n < 2:
+        return n
+
+    dp = [0 for _ in range(n)]
+    for i in range(n - 1, -1, -1):
+        dp[i] = 1
+        for j in range(i + 1, n, 1):
+            if nums[i] < nums[j]:
+                dp[i] = max(dp[i], dp[j] + 1)
+
+    res = max(dp)
+    return res
